@@ -653,23 +653,23 @@ class JSONSchemaTest < Test::Unit::TestCase
     }
   end
 
-	def test_type
-		# schema
-		schema1 = {
-			"type"=>[
-				{
+  def test_type
+    # schema
+    schema1 = {
+      "type"=>[
+        {
           "type"=>"array",
-					"minItems"=>10
-				},
-				{
+          "minItems"=>10
+        },
+        {
           "type"=>"string",
           "pattern"=>"^0+$"
-				}
-			]
-		}
-		data1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-		data2 = "0"
-		data3 = 1203
+        }
+      ]
+    }
+    data1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    data2 = "0"
+    data3 = 1203
     assert_nothing_raised{
       JSON::Schema.validate(data1, schema1)
     }
@@ -682,24 +682,24 @@ class JSONSchemaTest < Test::Unit::TestCase
 
     # integer phase
     [1, 89, 48, 32, 49, 42].each do |item|
-			assert_nothing_raised{
-				JSON::Schema.validate(item, {"type"=>"integer"})
-			}
+      assert_nothing_raised{
+        JSON::Schema.validate(item, {"type"=>"integer"})
+      }
     end
     [1.2, "bad", {"test" => "blah"}, [32, 49], nil, true].each do |item|
-			assert_raise(JSON::Schema::ValueError){
+      assert_raise(JSON::Schema::ValueError){
         JSON::Schema.validate(item, {"type"=>"integer"})
       }
     end
 
     # string phase
     ["surrender?", "nuts!", "ok", "@hsuha", "\'ok?\'", "blah"].each do |item|
-			assert_nothing_raised{
+      assert_nothing_raised{
         JSON::Schema.validate(item, {"type"=>"string"})
       }
     end
     [1.2, 1, {"test" => "blah"}, [32, 49], nil, true].each do |item|
-			assert_raise(JSON::Schema::ValueError){
+      assert_raise(JSON::Schema::ValueError){
         JSON::Schema.validate(item, {"type"=>"string"})
       }
     end
@@ -757,7 +757,7 @@ class JSONSchemaTest < Test::Unit::TestCase
       JSON::Schema.validate(nil, {"type"=>"null"})
     }
     [1.2, "bad", {"test"=>"blah"}, [32, 49], 1284, true].each do |item|
-			assert_raise(JSON::Schema::ValueError){
+      assert_raise(JSON::Schema::ValueError){
         JSON::Schema.validate(item, {"type"=>"null"})
       }
     end
@@ -769,7 +769,7 @@ class JSONSchemaTest < Test::Unit::TestCase
       }
     end
 
-	end
+  end
 
   def test_items
     schema1 = {
