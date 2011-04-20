@@ -36,8 +36,8 @@ module JSON
         end
 
         if value == Undefined
-          unless schema['optional']
-            raise ValueError, "#{key}: is missing and it is not optional"
+          if schema['required'].instance_of?(TrueClass)
+            raise ValueError, "#{key}: is missing and it is required"
           end
 
           # default

@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'open-uri'
 require 'pp'
-require File.dirname(__FILE__) + '/../lib/jsonschema'
+require File.absolute_path(File.dirname(__FILE__)) + '/../lib/jsonschema'
 
 class JSONSchemaTest < Test::Unit::TestCase
   def test_self_schema
@@ -9,12 +9,12 @@ class JSONSchemaTest < Test::Unit::TestCase
       "$schema"=> {
           "properties"=> {
               "name"=> {
-                  "type"=> "string"
+                  "type"=> "string",
+                  "required"=> true
               },
               "age" => {
                   "type"=> "integer",
-                  "maximum"=> 125,
-                  "optional"=> true
+                  "maximum"=> 125
               }
           }
       },
@@ -29,12 +29,12 @@ class JSONSchemaTest < Test::Unit::TestCase
       "$schema"=> {
           "properties"=> {
               "name"=> {
-                  "type"=> "integer"
+                  "type"=> "integer",
+                  "required"=> true
               },
               "age" => {
                   "type"=> "integer",
-                  "maximum"=> 125,
-                  "optional"=> true
+                  "maximum"=> 125
               }
           }
       },
@@ -49,12 +49,12 @@ class JSONSchemaTest < Test::Unit::TestCase
       "$schema"=> {
           "properties"=> {
               "name"=> {
-                  "type"=> "integer"
+                  "type"=> "integer",
+                  "required"=> true
               },
               "age" => {
                   "type"=> "integer",
-                  "maximum"=> 125,
-                  "optional"=> true
+                  "maximum"=> 125
               }
           }
       },
@@ -418,27 +418,28 @@ class JSONSchemaTest < Test::Unit::TestCase
       "properties"=>{
         "prop01"=>{
           "type"=>"string",
+          "required"=>"true"
         },
         "prop02"=>{
-          "type"=>"number",
-          "optional"=>true
+          "type"=>"number"
         },
         "prop03"=>{
           "type"=>"integer",
+          "required"=>"true"
         },
         "prop04"=>{
           "type"=>"boolean",
+          "required"=>"true"
         },
         "prop05"=>{
           "type"=>"object",
-          "optional"=>true,
           "properties"=>{
             "subprop01"=>{
               "type"=>"string",
             },
             "subprop02"=>{
               "type"=>"string",
-              "optional"=>false
+              "required"=>true
             }
           }
         }
@@ -498,12 +499,10 @@ class JSONSchemaTest < Test::Unit::TestCase
       "type"=>"object",
       "properties"=>{
         "prop01"=>{
-          "type"=>"string",
-          "optional"=>true
+          "type"=>"string"
         },
         "prop02"=>{
           "type"=>"number",
-          "optional"=>true,
           "requires"=>"prop01"
         }
       }
@@ -550,18 +549,19 @@ class JSONSchemaTest < Test::Unit::TestCase
       "type"=>"object",
       "properties"=>{
         "prop01"=>{
-          "type"=>"string"
+          "type"=>"string",
+          "required"=>true
         },
         "prop02"=>{
-          "type"=>"number",
-          "optional"=>true
+          "type"=>"number"
         },
         "prop03"=>{
-          "type"=>"integer"
+          "type"=>"integer",
+          "required"=>true
         },
         "prop04"=>{
           "type"=>"boolean",
-          "optional"=>false
+          "required"=>true
         }
       }
     }
@@ -598,7 +598,6 @@ class JSONSchemaTest < Test::Unit::TestCase
     schema1 = {
       "properties"=>{
         "test"=>{
-          "optional"=>true,
           "default"=>10
         },
       }
@@ -606,7 +605,6 @@ class JSONSchemaTest < Test::Unit::TestCase
     schema2 = {
       "properties"=>{
         "test"=>{
-          "optional"=>true,
           "default"=>10,
           "readonly"=>true
         }
@@ -781,9 +779,9 @@ class JSONSchemaTest < Test::Unit::TestCase
     schema2 = {
       "type"=>"array",
       "items"=>[
-        {"type"=>"integer"},
-        {"type"=>"string"},
-        {"type"=>"boolean"}
+        {"type"=>"integer", "required"=>true},
+        {"type"=>"string", "required"=>true},
+        {"type"=>"boolean", "required"=>true}
       ]
     }
     data1 = ["string", "another string", "mystring"]
